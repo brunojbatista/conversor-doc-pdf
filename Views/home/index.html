@@ -63,46 +63,50 @@
 
             document.forms.convert.addEventListener("change", (e) => {
 
-                document.querySelector("#input_doc").style.display = "none";
-                document.querySelector("#loading").style.display = "block";
+                if (document.forms.convert.elements[0].files.length > 0) {
 
-                try {
+                    document.querySelector("#input_doc").style.display = "none";
+                    document.querySelector("#loading").style.display = "block";
 
-                    var formData = new FormData(document.forms.convert);
+                    try {
 
-                    // console.log("Upou arquivo...........");
+                        var formData = new FormData(document.forms.convert);
 
-                    var options = {method: 'POST', body: formData};
+                        // console.log("Upou arquivo...........");
 
-                    fetch('/convert',options)
-                    .then(function(resp) {
-                        return resp.blob();
-                    })
-                    .then(function(blob) {
-                        // console.log(blob);
-                        download(blob, document.forms.convert.elements[0].files[0].name.replace(/\..*/g, ''));
+                        var options = {method: 'POST', body: formData};
+
+                        fetch('/convert',options)
+                        .then(function(resp) {
+                            return resp.blob();
+                        })
+                        .then(function(blob) {
+                            // console.log(blob);
+                            download(blob, document.forms.convert.elements[0].files[0].name.replace(/\..*/g, ''));
+                            // document.querySelector("#input_doc").value = "";
+                            document.forms.convert.reset();
+
+                            document.querySelector("#input_doc").style.display = "block";
+                            document.querySelector("#loading").style.display = "none";
+                        });
+
+                    } catch (e) {
+
+                        // document.querySelector("#input_doc").value = "";
+
+                        document.forms.convert.reset();
+
                         document.querySelector("#input_doc").style.display = "block";
                         document.querySelector("#loading").style.display = "none";
-                    });
 
-                } catch (e) {
-
-                    document.querySelector("#input_doc").style.display = "block";
-                    document.querySelector("#loading").style.display = "none";
+                    }
 
                 }
+                
 
             });
 
         }
-
-        // $(document).ready(
-        //     () => {
-
-        //         [...document.querySelector("")]
-
-        //     }
-        // );
 
     </script>
   </body>
